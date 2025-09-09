@@ -150,4 +150,4 @@ euroscipy-2025-sbi-tutorial/
 
 ## 📝 License
 
-This tutorial is licensed under CC BY 4.0. Feel free to reuse and adapt with attribution.
+This tutorial is licensed under Apache 2.0.

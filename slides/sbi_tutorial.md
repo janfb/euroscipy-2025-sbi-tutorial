@@ -1,94 +1,141 @@
 ---
 marp: true
 title: "Beyond Likelihoods: Bayesian Parameter Inference for Black-Box Simulators with sbi"
-theme: uncover
-class: lead
+theme: default
 paginate: true
-backgroundColor: #fefefe
-color: #333
+backgroundColor: #ffffff
+header: '&nbsp;'
+footer: '&nbsp;'
 style: |
+  /* Global slide styling */
   section {
-    font-size: 28px;
-    justify-content: start;
-    padding-top: 30px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #ffffff;
+    padding: 80px 50px 50px 50px;
   }
-  section.lead {
-    justify-content: center;
-    text-align: center;
+
+  /* Dark blue stripe at the top - using header element */
+  header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background-color: #1e5266;
+    border: none;
+    margin: 0;
+    padding: 0;
   }
-  h1 {
-    font-size: 44px;
-    color: #2e7d32;
-    font-weight: 700;
-    margin-bottom: 0.5em;
+
+  /* Logo in header */
+  header::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -0px;
+    transform: translateY(-50%);
+    width: 220px;
+    height: 300px;
+    background-image: url('./images/aai_logo.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
   }
-  h2 {
-    font-size: 36px;
-    color: #1565c0;
-    font-weight: 600;
-    margin-bottom: 0.5em;
-  }
-  h3 {
-    font-size: 32px;
-    color: #424242;
-    margin-bottom: 0.5em;
-  }
-  code {
+
+  /* Page number positioning - bottom right */
+  section::after {
+    position: absolute;
+    bottom: 10px;
+    right: 30px;
+    color: #7f8c8d;
     font-size: 20px;
-    background: #f5f5f5;
-    padding: 2px 6px;
-    border-radius: 4px;
+    font-weight: 500;
   }
-  pre code {
-    font-size: 18px;
-    line-height: 1.4;
-  }
+
   .columns {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 30px;
   }
-  .highlight {
-    background: #fff3cd;
-    padding: 10px;
-    border-radius: 8px;
-    border-left: 4px solid #ffc107;
-  }
-  ul {
-    text-align: left;
-  }
-  li {
-    margin-bottom: 0.5em;
-    font-size: 26px;
-  }
-  strong {
-    color: #d32f2f;
-  }
-  table {
-    font-size: 24px;
-    margin: 0 auto;
-  }
-  blockquote {
-    border-left: 4px solid #2e7d32;
-    padding-left: 20px;
-    font-style: italic;
-    color: #555;
-  }
-  footer {
-    font-size: 16px;
-    color: #757575;
-  }
-  .small {
-    font-size: 20px;
-  }
-  .tiny {
-    font-size: 16px;
-  }
+
   img[alt~="center"] {
     display: block;
     margin: 0 auto;
   }
-  /* Color-blind friendly palette (Okabe-Ito) */
+
+  /* Headings styling - unified theme color */
+  h1 {
+    font-size: 36px;
+    color: #1e5266;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+  }
+
+  h2 {
+    font-size: 28px;
+    color: #1e5266;
+    font-weight: 600;
+    margin-bottom: 0.5em;
+  }
+
+  h3 {
+    font-size: 26px;
+    color: #1e5266;
+    margin-bottom: 0.5em;
+  }
+
+  /* Link styling */
+  a {
+    color: #56B4E9;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-bottom 0.2s;
+  }
+
+  a:hover {
+    border-bottom: 1px solid #0066cc;
+  }
+
+  /* Keep existing code and list styles */
+  code {
+    font-size: 16px;
+    background: #f5f5f5;
+    padding: 2px 4px;
+    border-radius: 4px;
+  }
+
+  pre code {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  ul {
+    text-align: left;
+  }
+
+  li {
+    margin-bottom: 0.5em;
+    font-size: 26px;
+  }
+
+  strong {
+    color: #1e5266;
+    font-weight: 700;
+  }
+
+  table {
+    font-size: 20px;
+    margin: 0 auto;
+  }
+
+  blockquote {
+    border-left: 4px solid #1e5266;
+    padding-left: 20px;
+    font-style: italic;
+    color: #555;
+  }
+
+  /* Keep color-blind friendly palette (Okabe-Ito) */
   .cb-orange { color: #E69F00; }
   .cb-skyblue { color: #56B4E9; }
   .cb-green { color: #009E73; }
@@ -96,6 +143,22 @@ style: |
   .cb-blue { color: #0072B2; }
   .cb-red { color: #D55E00; }
   .cb-purple { color: #CC79A7; }
+
+  /* Additional utility classes */
+  .small {
+    font-size: 18px;
+  }
+
+  .tiny {
+    font-size: 15px;
+  }
+
+  .highlight {
+    background: #f0f7fb;
+    padding: 10px;
+    border-radius: 8px;
+    border-left: 4px solid #1e5266;
+  }
 ---
 
 <!-- _class: lead -->
@@ -104,25 +167,17 @@ style: |
 
 ## A Hands-On Introduction to Simulation-Based Inference
 
-**EuroSciPy 2025** | Kraków, Poland | 90 minutes
+**[EuroSciPy 2025](https://euroscipy.org/)** | Kraków, Poland | 90 minutes
 **Case Study:** Ecological Monitoring with Limited Data
 
 <br>
 
-Jan Teusen (Boelts) | TransferLab, appliedAI Institute for Europe
+[Jan Teusen (Boelts)](https://janfb.github.io/) | [TransferLab](https://transferlab.ai/about/), appliedAI Institute for Europe
 
 📱 **Materials:** [`github.com/janfb/euroscipy-2025-sbi-tutorial`](https://github.com/janfb/euroscipy-2025-sbi-tutorial)
 
 
 ![width:400px center](images/logo.png)
-
-<!--
-Speaker notes:
-- Welcome everyone!
-- Check that everyone can access the materials
-- Mention helpers are available for setup issues
-- Today: from theory to practice with your own simulators
--->
 
 ---
 
@@ -133,9 +188,9 @@ Speaker notes:
 <div class="columns">
 <div>
 
-[![width:500px](images/tvp_cracow_terror_of_podhale.png)](https://krakow.tvp.pl/82694720/wilki-postrachem-podhala-rolnicy-apeluja-o-odstrzal)
+[![width:400px](images/tvp_cracow_terror_of_podhale.png)](https://krakow.tvp.pl/82694720/wilki-postrachem-podhala-rolnicy-apeluja-o-odstrzal)
 
-**TVP Kraków Reports:**
+**[TVP Kraków Reports](https://krakow.tvp.pl/82694720/wilki-postrachem-podhala-rolnicy-apeluja-o-odstrzal):**
 *"Wolves are the terror of Podhale. Farmers are calling for a cull"*
 
 </div>
@@ -151,14 +206,6 @@ Speaker notes:
 </div>
 </div>
 
-<!--
-Speaker notes:
-- This is happening RIGHT NOW, just south of Kraków
-- Real farmers losing real livestock
-- Deep conflict between conservation law and traditional farming
-- Not an abstract problem - affects real families and communities
--->
-
 ---
 
 # 📊 Research Confirms the Growing Problem
@@ -168,7 +215,7 @@ Speaker notes:
 
 [![width:500px](images/pasternak_et_al_wolf_attacks_report.png)](https://www.researchgate.net/publication/389812129_Preliminary_report_on_wolf_attacks_on_flocks_of_sheep_of_native_breeds_in_Poland)
 
-**Pasternak et al. (March 2025):**
+**[Pasternak et al.](https://www.researchgate.net/publication/389812129_Preliminary_report_on_wolf_attacks_on_flocks_of_sheep_of_native_breeds_in_Poland) (March 2025):**
 *"Preliminary report on wolf attacks on flocks of sheep"*
 
 </div>
@@ -186,14 +233,6 @@ Speaker notes:
 
 </div>
 </div>
-
-<!--
-Speaker notes:
-- Published research confirms the news reports
-- Systematic increase in conflicts
-- Concentrated in Carpathian mountain regions
-- Need science-based management decisions
--->
 
 ---
 
@@ -233,20 +272,11 @@ observations = {
 }
 ```
 
-<br>
-
-**Challenge:** From limited data, infer ecosystem dynamics to guide policy
+**Challenge:** From limited data, infer ecosystem dynamics to guide policy.
 
 </div>
 </div>
 
-<!--
-Speaker notes:
-- You're the technical expert advising government
-- Decisions affect both conservation and livelihoods
-- Need rigorous uncertainty quantification
-- Real consequences to getting this wrong
--->
 
 ---
 
@@ -289,17 +319,8 @@ def lotka_volterra(params):
 </div>
 </div>
 
-<br>
-
 > **Next challenge:** How do we infer these parameters from observations?
 
-<!--
-Speaker notes:
-- Classic model from 1920s, still widely used
-- Simple but captures essential dynamics
-- Parameters have biological meaning
-- Perfect for demonstrating SBI principles
--->
 
 ---
 
@@ -339,13 +360,6 @@ best_params = optimize(
 </div>
 </div>
 
-<!--
-Speaker notes:
-- Optimization finds ONE set of parameters
-- No sense of uncertainty or confidence
-- Can't answer: "What else could it be?"
-- Critical for decision making
--->
 
 ---
 
@@ -370,13 +384,6 @@ Speaker notes:
 > **Which one is correct?** 🤔
 > **What about future predictions?** 📈
 
-<!--
-Speaker notes:
-- This is the core problem!
-- All three produce similar observations
-- But might give VERY different future predictions
-- Need to quantify this uncertainty
--->
 
 ---
 
@@ -408,13 +415,6 @@ Speaker notes:
 > **Goal:** `p(parameters | observation)`
 > The probability distribution of parameters given what we observed
 
-<!--
-Speaker notes:
-- Shift from optimization to Bayesian inference
-- Want full distribution, not just point
-- Shows what we're confident about vs uncertain
-- Reveals correlations between parameters
--->
 
 ---
 
@@ -441,13 +441,6 @@ $$p(θ|x) ∝ p(x|θ) × p(θ)$$
 
 **Examples:** Climate models, neural circuits, epidemics, cosmology...
 
-<!--
-Speaker notes:
-- Traditional Bayesian inference needs likelihood
-- Most simulators don't have tractable likelihoods
-- Can't write down p(x|θ) mathematically
-- This is where SBI comes in!
--->
 
 ---
 
@@ -472,14 +465,6 @@ Speaker notes:
 
 </div>
 
-<!--
-Speaker notes:
-- Core innovation: use ML for Bayesian inference
-- Generate training data by running simulator
-- Neural network learns parameter-data relationship
-- At test time: input observation, get posterior
--->
-
 ---
 
 # What You'll Learn Today
@@ -495,7 +480,6 @@ Speaker notes:
 - Load Lotka-Volterra simulator
 - Run NPE in 5 lines
 - Visualize posterior
-- See uncertainty!
 
 </div>
 <div>
@@ -505,7 +489,6 @@ Speaker notes:
 - Posterior predictive checks
 - Coverage diagnostics
 - Warning signs
-- "Can I trust this?"
 
 </div>
 </div>
@@ -519,13 +502,6 @@ Speaker notes:
 - Adapt template to your simulator, OR use provided examples
 
 </div>
-
-<!--
-Speaker notes:
-- All code provided - focus on understanding
-- Solutions available if stuck
-- Goal: you leave able to apply this
--->
 
 ---
 
@@ -565,13 +541,6 @@ Speaker notes:
 
 > We'll see both for intuition, then use the modern approach
 
-<!--
-Speaker notes:
-- Start with rejection for intuition
-- Understand why we need neural methods
-- Then dive into NPE
--->
-
 ---
 
 # Rejection Sampling in 5 Lines
@@ -596,13 +565,6 @@ posterior_samples = accepted_params       # 5. These approximate p(θ|x)
 
 </div>
 
-<!--
-Speaker notes:
-- Dead simple algorithm
-- Directly implements the idea
-- But watch what happens with dimensions...
--->
-
 ---
 
 # The Curse of Dimensionality
@@ -626,13 +588,6 @@ Speaker notes:
 <br>
 
 > **Solution:** Learn the relationship instead of rejecting!
-
-<!--
-Speaker notes:
-- This is why we need neural methods
-- Can't afford billions of simulations
-- Most real problems are >10D
--->
 
 ---
 
@@ -675,45 +630,28 @@ Transform inference into **supervised learning**
 </div>
 </div>
 
-<!--
-Speaker notes:
-- Like training an image classifier
-- But output is a probability distribution
-- Uses normalizing flows for flexibility
-- Train once, use many times
--->
-
 ---
 
 # How NPE Training Works
 
-## Three simple steps:
-
-### 1️⃣ **Generate Training Data**
+### 1️⃣ Generate Training Data
 ```python
 for i in range(n_simulations):
     θ[i] ~ prior()
     x[i] = simulator(θ[i])
 ```
 
-### 2️⃣ **Train Neural Network**
+### 2️⃣ Train Neural Network
 ```python
 neural_net = NeuralPosterior()
 neural_net.train(parameters=θ, observations=x)
 ```
 
-### 3️⃣ **Get Posterior (instant!)**
+### 3️⃣ Get Posterior (instant!)
 ```python
 posterior = neural_net(x_observed)
 samples = posterior.sample(10000)  # Milliseconds!
 ```
-
-<!--
-Speaker notes:
-- Emphasize simplicity
-- Most complexity hidden in neural network
-- User just needs to provide simulator
--->
 
 ---
 
@@ -735,14 +673,6 @@ Speaker notes:
 - Multiple observations
 
 </div>
-
-<!--
-Speaker notes:
-- This is the killer feature!
-- Train overnight, deploy in production
-- Enables real-time decision making
-- Game-changer for many fields
--->
 
 ---
 
@@ -766,14 +696,6 @@ import sbi
 import torch
 print("Ready for SBI! 🚀")
 ```
-
-<!--
-Speaker notes:
-- Check everyone is ready
-- Helpers available for issues
-- Colab backup if needed
-- Let's start with Exercise 1!
--->
 
 ---
 
@@ -801,14 +723,6 @@ samples = posterior.sample((1000,), x=observed_stats)
 ```
 
 **📝 Open notebook:** [`01_first_inference.ipynb`](../src/01_first_inference.ipynb)
-
-<!--
-Speaker notes:
-- Walk through each line
-- Emphasize simplicity
-- 15 minutes for this exercise
-- Solutions available if stuck
--->
 
 ---
 
@@ -857,16 +771,7 @@ x_pred = simulator(θ_post)
 </div>
 </div>
 
-<br>
-
 > **But wait...** How do we know we can trust these results? 🤔
-
-<!--
-Speaker notes:
-- Quick recap of the workflow
-- Emphasize we got distributions, not points
-- Now the critical question: trust
--->
 
 ---
 
@@ -884,25 +789,12 @@ Speaker notes:
 
 </div>
 
-<br>
-
 ### Without diagnostics, you risk:
 
 - ❌ **Overconfident conclusions** (too narrow posteriors)
-- ❌ **Missing the truth** (biased inference)
 - ❌ **Policy disasters** (remember the wolves!)
 
-<br>
-
 > **Remember:** Your recommendations affect real ecosystems and livelihoods!
-
-<!--
-Speaker notes:
-- SBI is powerful but approximate
-- Multiple potential failure points
-- Real consequences to getting it wrong
-- Diagnostics are not optional!
--->
 
 ---
 
@@ -931,7 +823,6 @@ Speaker notes:
 
 **How:** Sample posterior → simulate → compare to observed
 
-
 ### 📏 **4. Calibration Check**
 **Question:** Are uncertainties calibrated?
 
@@ -940,13 +831,6 @@ Speaker notes:
 
 </div>
 </div>
-
-<!--
-Speaker notes:
-- Each diagnostic targets different failure mode
-- Together they build confidence
-- Let's see each in detail
--->
 
 ---
 
@@ -981,21 +865,11 @@ for _ in range(100):
 </div>
 </div>
 
-<br>
-
 <div class="highlight">
 
 **Example failure:** Prior allows negative birth rates → Populations go extinct instantly!
 
 </div>
-
-<!--
-Speaker notes:
-- This is your first sanity check
-- Catches obvious prior problems
-- Do this BEFORE expensive training
-- Use biological/physical constraints
--->
 
 ---
 
@@ -1019,7 +893,6 @@ compare(summary_pred, summary_observed)
 
 ✅ **Predicted summaries match observed**
 ✅ **Reasonable variation**
-✅ **No systematic bias**
 
 </div>
 <div>
@@ -1028,22 +901,11 @@ compare(summary_pred, summary_observed)
 
 ❌ **Can't recreate observations**
 ❌ **Too narrow/wide predictions**
-❌ **Missing key features**
 
 </div>
 </div>
-
-<br>
 
 > **If this fails:** Your summary statistics likely lost critical information!
-
-<!--
-Speaker notes:
-- Most important single diagnostic
-- If can't recreate data, something wrong
-- Often reveals insufficient summaries
-- May need to add more statistics
--->
 
 ---
 
@@ -1090,14 +952,6 @@ coverage = mean(coverage_test)  # Should be ~0.9!
 
 </div>
 
-<!--
-Speaker notes:
-- Gold standard for calibration
-- Tests the entire pipeline
-- Computational but worth it
-- Run overnight if needed
--->
-
 ---
 
 # Exercise 2: Trust but Verify
@@ -1135,14 +989,6 @@ Speaker notes:
 
 **📝 Open notebook:** [`02_diagnostics.ipynb`](../src/02_diagnostics.ipynb)
 
-<!--
-Speaker notes:
-- Critical for real applications
-- Never trust without verification
-- These catch most problems
-- 20 minutes for this exercise
--->
-
 ---
 
 <!-- _class: lead -->
@@ -1167,16 +1013,7 @@ Simple projectile motion with air resistance
 Disease spread dynamics
 
 
-**📝 Open notebook:** [`03_your_problem.ipynb`](../src/03_your_problem.ipynb)
-
-<!--
-Speaker notes:
-- Most exciting part!
-- Apply to real problems
-- Template handles boilerplate
-- Focus on science, not code
-- 20 minutes
--->
+**📝 Open notebook:** [`03_your_sbi_problem.ipynb`](../src/03_your_sbi_problem.ipynb)
 
 ---
 
@@ -1203,43 +1040,6 @@ Speaker notes:
 All available in the `sbi` package with the same interface!
 
 </div>
-
-<!--
-Speaker notes:
-- NPE is just the beginning
-- Each method has strengths
-- Sequential great for expensive simulators
-- Same API for all methods
--->
-
-
-<!-- # ⚠️ Common Pitfalls & Solutions
-
-### Learn from our mistakes!
-
-| Pitfall | Consequence | Solution |
-|---------|-------------|----------|
-| **Prior too wide** | Wasted simulations | Use domain knowledge |
-| **Too few simulations** | Poor approximation | Use diagnostics! |
-| **Ignoring diagnostics** | False confidence | Always verify |
-| **Poor summary stats** | Information loss | Include diverse statistics |
-| **Assuming sufficiency** | Missing key info | Test with diagnostics |
-
-<br>
-<div class="highlight">
-
-> **Golden rule:** Always validate your results!
-
-</div>
-
-<!--
-Speaker notes:
-- These are the most common issues
-- Diagnostics catch most problems
-- Prior choice is crucial
-- With summary stats: always question sufficiency
-- Our case: privacy forces summary stats, so diagnostics critical!
--->
 
 ---
 
@@ -1271,14 +1071,6 @@ Speaker notes:
 <br>
 
 > 📚 **Resources:** Papers, tutorials, and examples at [sbi.readthedocs.io](https://sbi.readthedocs.io/en/latest/)
-
-<!--
-Speaker notes:
-- Rich research area
-- Active development
-- Many advanced features
-- Great community support
--->
 
 ---
 
@@ -1314,13 +1106,6 @@ Speaker notes:
 [Webapp with overview of SBI applications](https://sbi-applications-explorer.streamlit.app/)
 
 </div>
-<!--
-Speaker notes:
-- Wide adoption across fields
-- Growing rapidly
-- Many success stories
-- Your problem probably fits!
--->
 
 ---
 
@@ -1368,14 +1153,6 @@ Speaker notes:
 </div>
 </div>
 
-<!--
-Speaker notes:
-- Welcoming community
-- Lots of ways to contribute
-- Regular hackathons
-- Great place to learn
--->
-
 ---
 
 <!-- _class: lead -->
@@ -1412,16 +1189,6 @@ https://forms.gle/vf6rHA5DcAt2ird98
 
 <br>
 
-> **What will you infer?** 🚀
-
-<!--
-Speaker notes:
-- Thank audience
-- Reminder about materials
-- Encourage questions
-- Available after for discussions
--->
-
 ---
 
 # References & Acknowledgments
@@ -1430,8 +1197,8 @@ Speaker notes:
 
 - **Funding**: appliedAI Institute for Europe
 
-  - 🚀 **We're hiring!** AI Research Engineer @ TransferLab, [Apply here](https://transferlab.ai/jobs/ai-engineer/)
 <br>
+
 - **Communities**: SBI community & EuroSciPy community
 
 ## 🛠️ Tools Used
@@ -1466,5 +1233,3 @@ Where:
 - Expectation over joint distribution of parameters and data
 
 **Implementation:** Normalizing flows for flexible distributions
-
----
