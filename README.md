@@ -38,6 +38,13 @@ uv sync
 python -c "import sbi; import torch; print('✅ Setup complete!')"
 ```
 
+### Running the notebooks
+
+- You can run the notebooks in VSCode or a similar IDE, selecting the
+  `euroscipy-2025-sbi-tutorial` python kernel
+- Alternatively, you can start `jupyter notebook` in the terminal and work on the
+  notebooks in the browser.
+
 ### 3. Optional but Recommended
 
 - **Read a bit about SBI**:
