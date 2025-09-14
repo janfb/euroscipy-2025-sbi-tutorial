@@ -1,5 +1,7 @@
 # EuroSciPy 2025: Simulation-Based Inference Tutorial
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/janfb/euroscipy-2025-sbi-tutorial)
+
 ## Beyond Likelihoods: Bayesian Parameter Inference for Black-Box Simulators with sbi
 
 📍 Kraków, Poland | 90 minutes | Intermediate Track
@@ -29,7 +31,7 @@ cd euroscipy-2025-sbi-tutorial
 uv venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 uv sync
-```
+```text
 
 ### 2. Test Your Setup
 
@@ -44,6 +46,12 @@ python -c "import sbi; import torch; print('✅ Setup complete!')"
   `euroscipy-2025-sbi-tutorial` python kernel
 - Alternatively, you can start `jupyter notebook` in the terminal and work on the
   notebooks in the browser.
+
+### Open notebooks in Colab
+
+- notebook 1: [![Open 01 in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/janfb/euroscipy-2025-sbi-tutorial/blob/master/src/01_first_inference.ipynb)
+- notebook 2: [![Open 02 in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/janfb/euroscipy-2025-sbi-tutorial/blob/master/src/02_diagnostics.ipynb)
+- notebook 3: [![Open 03 in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/janfb/euroscipy-2025-sbi-tutorial/blob/master/src/03_your_sbi_problem.ipynb)
 
 ### 3. Optional but Recommended
 
